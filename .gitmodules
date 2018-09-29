@@ -1,0 +1,7 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/HugoVP/Burger-Builder-Laravel-API.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/HugoVP/BurgerBuilder.git
+	branch = laravel-api

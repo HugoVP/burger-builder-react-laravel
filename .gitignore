@@ -1,0 +1,7 @@
+laravel-docker/
+api/
+client/
+
+.env.*
+*.code-workspace
+*.dockerfile
