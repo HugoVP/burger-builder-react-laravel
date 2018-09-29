@@ -4,4 +4,4 @@ client/
 
 .env.*
 *.code-workspace
-*.dockerfile
+/*.dockerfile
