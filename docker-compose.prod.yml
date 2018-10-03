@@ -1,0 +1,44 @@
+version: "3"
+services:
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    ports:
+      - 8888:80
+    command: |
+      sh -c 
+        "chmod +x wait-for.sh;
+        ./wait-for.sh frontend:3000 -- 
+          ./wait-for.sh web:9000 -- 
+            nginx -g \"daemon off;\""
+  frontend:
+    restart: on-failure
+    depends_on: 
+      - nginx
+    build:
+      context: ./frontend
+  web:
+    restart: on-failure
+    depends_on: 
+      - nginx
+    build: 
+      context: ./web
+    volumes: 
+      - ./backend:/var/www
+  backend:
+    restart: on-failure
+    depends_on: 
+      - web
+    build:
+      context: ./backend
+    env_file:
+      - ./backend/.env.production
+    volumes: 
+      - ./web:/usr/local/etc/php-fmp.d/zz-log.conf
+    command: |
+      sh -c 
+        "php artisan route:cache \
+        && php artisan config:cache \
+        && php artisan migrate --force \
+        && php-fpm"
