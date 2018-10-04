@@ -40,6 +40,7 @@ services:
     build:
       dockerfile: dev.dockerfile
       context: ./backend
+    env_file: ./backend/.env
     volumes: 
       - /var/www/vendor
       - ./backend:/var/www
@@ -48,9 +49,10 @@ services:
       sh -c
         "chmod +x wait-for.sh;
         ./wait-for.sh database:3306 --
+          php artisan config:cache;
+          php artisan route:cache;
           php artisan migrate --force;
-          php-fpm;"
-    
+          php-fpm;"    
   database:
     restart: on-failure
     image: mysql:latest
@@ -64,5 +66,9 @@ services:
       MYSQL_PASSWORD: secret
     ports:
       - 33061:3306
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
 volumes:
   dbdata:

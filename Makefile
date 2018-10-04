@@ -8,8 +8,8 @@ dev:
 
 .PHONY: prod
 prod:
-	docker-compose -f docker-compose.prod.yaml up --build
+	docker-compose -f docker-compose.prod.yml up --build
 
 .PHONY: prod-d
 prod-d:
-	docker-compose -f docker-compose.prod.yaml up --build -d
+	docker-compose -f docker-compose.prod.yml up --build -d
