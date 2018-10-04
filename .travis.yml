@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t hugovp/react-test -f ./frontend/dev.dockerfile ./frontend
+script:
+  - docker run hugovp/react-test npm run test -- --coverage
+after_success:
+  - docker build -t hugovp/burger-builder-frontend ./frontend
+
+  # Log in to the Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # Take the images and push then to Docker Hub
+  - docker push hugovp/burger-builder-frontend
