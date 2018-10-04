@@ -6,10 +6,16 @@ before_install:
 script:
   - docker run hugovp/react-test npm run test -- --coverage
 after_success:
+  - docker build -t hugovp/burger-builder-nginx ./nginx
   - docker build -t hugovp/burger-builder-frontend ./frontend
+  - docker build -t hugovp/burger-builder-web ./web
+  - docker build -t hugovp/burger-builder-backend ./backend
 
   # Log in to the Docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   # Take the images and push then to Docker Hub
+  - docker push hugovp/burger-builder-nginx
   - docker push hugovp/burger-builder-frontend
+  - docker push hugovp/burger-builder-web
+  - docker push hugovp/burger-builder-backend
