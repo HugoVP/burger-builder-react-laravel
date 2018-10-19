@@ -44,7 +44,7 @@ services:
     volumes: 
       - /var/www/vendor
       - ./backend:/var/www
-      - ./web:/usr/local/etc/php-fpm.d/zz-log.conf
+      - ./web/log.conf:/usr/local/etc/php-fmp.d/zz-log.conf
     command: |
       sh -c
         "chmod +x wait-for.sh;

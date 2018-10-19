@@ -35,7 +35,7 @@ services:
     env_file:
       - ./backend/.env.production
     volumes: 
-      - ./web:/usr/local/etc/php-fmp.d/zz-log.conf
+      - ./web/log.conf:/usr/local/etc/php-fmp.d/zz-log.conf
     command: |
       sh -c 
         "php artisan route:cache \
